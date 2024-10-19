@@ -4,7 +4,7 @@
 <h1 class="m-b-5">
    Manage Category
 </h1>
-<a href="manage_category">
+<a href="{{url('admin/category')}}">
     <button type="button" class="btn btn-success">
         Back
     </button>
@@ -21,7 +21,7 @@
                             @csrf
                             <div class="form-group">
                                 <label for="category_name" class="control-label mb-1">Category</label>
-                                <input id="category_name" name="category_name" type="text" class="form-control" aria-required="true" aria-invalid="false" required>
+                                <input id="category_name" value="{{$category_name}}" name="category_name" type="text" class="form-control" aria-required="true" aria-invalid="false" required>
                                 @error('category_name')
                                 <div class="alert alert-danger">
                                     {{ $message }}
@@ -31,7 +31,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="category_slug" class="control-label mb-1">Category Slug</label>
-                                <input id="category_slug" name="category_slug" type="text" class="form-control" aria-required="true" aria-invalid="false" required>
+                                <input id="category_slug" value="{{$category_slug}}" name="category_slug" type="text" class="form-control" aria-required="true" aria-invalid="false" required>
                             </div>
                             @error('category_slug')
                                 <div class="alert alert-danger">
@@ -43,6 +43,7 @@
                             
                             
                             <div>
+                                <input type="hidden" name="id" value="{{$id}}"/>
                                 <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
                                    
                                    Submit

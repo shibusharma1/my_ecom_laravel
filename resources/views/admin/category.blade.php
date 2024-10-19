@@ -33,10 +33,17 @@
                         <td>{{$list->category_name}}</td>
                         <td>{{$list->category_slug}}</td>
                         <td class="process">
-                            <a href="category/delete/{{$list->id}}">
+                            <a href="{{url('admin/category/delete/')}}/{{$list->id}}">
                                 <button type="button" class="btn btn-danger">
                                     Delete
                                 </button>
+                            </a>
+                            {{-- Managing the add and edit in the same form dynamically --}}
+                            <a href="{{url('admin/category/manage_category/')}}/{{$list->id}}">
+                                <button type="button" class="btn btn-success">
+                                    Edit
+                                </button>
+                            </a>
 
                         </td>
 

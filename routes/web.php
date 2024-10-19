@@ -17,7 +17,11 @@ Route::post('admin/auth', [AdminController::class, 'auth'])->name('admin.auth');
 Route::group(['middleware' => 'admin_auth'], function () {
     Route::get('admin/dashboard', [AdminController::class, 'dashboard']); // For showing login form
     Route::get('admin/category', [CategoryController::class, 'index']);
+    // managing the edit and update in same form
     Route::get('admin/category/manage_category', [CategoryController::class, 'manage_category']);
+    // if id comes in the request then it is for edit else it is for add
+    Route::get('admin/category/manage_category/{id}', [CategoryController::class, 'manage_category']);
+
     Route::post('admin/category/manage_category_process', [CategoryController::class, 'manage_category_process'])->name('category.insert');
 
     Route::get('admin/category/delete/{id}', [CategoryController::class, 'delete']);
@@ -30,10 +34,9 @@ Route::group(['middleware' => 'admin_auth'], function () {
         'admin/logout',
         function () {
             session()->forget('ADMIN_LOGIN');
-            session()->forget('key');
-            ('ADMIN_ID');
+            session()->forget('ADMIN_ID');
             session()->flash('error','LogOut Successfully');
-            return redirect('admin');
+            return redirect('/');
         }
     );
 
