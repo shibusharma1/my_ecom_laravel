@@ -11,7 +11,7 @@ Route::get('/', function () {
 });
 
 
-Route::get('admin', [AdminController::class, 'index']); // For showing login form
+Route::get('/admin', [AdminController::class, 'index']); // For showing login form
 // Route::post('admin', [AdminController::class, 'auth']); // For showing login form
 Route::post('admin/auth', [AdminController::class, 'auth'])->name('admin.auth'); // For processing login form
 
@@ -41,8 +41,8 @@ Route::group(['middleware' => 'admin_auth'], function () {
 
     
     
-    
-    // Route::get('admin/updatepassword',[AdminController::class,'updatepassword']); just for knowledge
+    //just for knowledge
+    Route::get('admin/updatepassword',[AdminController::class,'updatepassword']); 
     Route::get(
         'admin/logout',
         function () {
