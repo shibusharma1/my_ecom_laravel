@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
 
     <!-- Title Page-->
-    <title>Dashboard</title>
+    <title>@yield('page_title')</title>
 
     <!-- Fontfaces CSS-->
     <link href="{{ asset('admin_assets/vendor/bootstrap-4.1/bootstrap.min.css') }}" rel="stylesheet" media="all">
