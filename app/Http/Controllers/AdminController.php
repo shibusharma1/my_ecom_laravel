@@ -20,52 +20,52 @@ class AdminController extends Controller
     }
     
     //  The below code is useful only in the case when the password doesnot contain hash value or it is directly stored
-    public function auth(Request $request)
-    {
-        $email = $request->post('email');
-        $password = $request->post('password');
-
-        // Validate login credentials
-        $result = Admin::where(['email' => $email, 'password' => $password])->get();
-
-        if (isset($result['0']->id)) {
-            $request->session()->put('ADMIN_LOGIN', true);
-            $request->session()->put('ADMIN_ID', $result['0']->id);
-            return redirect('admin/dashboard');
-        } else {
-            $request->session()->flash('error', 'Please enter valid login credentials');
-            return redirect('admin');
-        }
-    }
-
-    // Now when we have stored the password using the hash function then we should use it as follows
     // public function auth(Request $request)
     // {
     //     $email = $request->post('email');
     //     $password = $request->post('password');
 
     //     // Validate login credentials
-    //     $result = Admin::where(['email' => $email])->first();
+    //     $result = Admin::where(['email' => $email, 'password' => $password])->get();
 
-    //     if($result){
-    //         if(Hash::check($password, $result->password)){
+    //     if (isset($result['0']->id)) {
     //         $request->session()->put('ADMIN_LOGIN', true);
-    //         $request->session()->put('ADMIN_ID', $result->id);
-    //         return redirect('admin/dashboard');}
-    //         else{
-    //             $request->session()->flash('error', 'Please enter correct Password');
-    //         return redirect('admin');
-
-    //         }
-
-
-    //     }
-    //     else{
+    //         $request->session()->put('ADMIN_ID', $result['0']->id);
+    //         return redirect('admin/dashboard');
+    //     } else {
     //         $request->session()->flash('error', 'Please enter valid login credentials');
     //         return redirect('admin');
-
     //     }
     // }
+
+    // Now when we have stored the password using the hash function then we should use it as follows
+    public function auth(Request $request)
+    {
+        $email = $request->post('email');
+        $password = $request->post('password');
+
+        // Validate login credentials
+        $result = Admin::where(['email' => $email])->first();
+
+        if($result){
+            if(Hash::check($password, $result->password)){
+            $request->session()->put('ADMIN_LOGIN', true);
+            $request->session()->put('ADMIN_ID', $result->id);
+            return redirect('admin/dashboard');}
+            else{
+                $request->session()->flash('error', 'Please enter correct Password');
+            return redirect('admin');
+
+            }
+
+
+        }
+        else{
+            $request->session()->flash('error', 'Please enter valid login credentials');
+            return redirect('admin');
+
+        }
+    }
 
     // Just for knowledge
     // public function updatepassword()
