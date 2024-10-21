@@ -34,15 +34,34 @@
                         <td>{{$list->category_name}}</td>
                         <td>{{$list->category_slug}}</td>
                         <td class="process">
-                            <a href="{{url('admin/category/delete/')}}/{{$list->id}}">
-                                <button type="button" class="btn btn-danger">
-                                    Delete
-                                </button>
-                            </a>
+                            
                             {{-- Managing the add and edit in the same form dynamically --}}
                             <a href="{{url('admin/category/manage_category/')}}/{{$list->id}}">
                                 <button type="button" class="btn btn-success">
                                     Edit
+                                </button>
+                            </a>
+
+                            @if($list->status == 1)
+                            <a href="{{url('admin/category/status/0')}}/{{$list->id}}">
+                                <button type="button" class="btn btn-primary">
+                                    Active
+                                </button>
+                            </a>
+                            @elseif($list->status == 0)
+                            <a href="{{url('admin/category/status/1')}}/{{$list->id}}">
+                                <button type="button" class="btn btn-warning">
+                                    Deactive
+                                </button>
+                            </a>
+
+                            @endif
+
+                            
+
+                            <a href="{{url('admin/category/delete/')}}/{{$list->id}}">
+                                <button type="button" class="btn btn-danger">
+                                    Delete
                                 </button>
                             </a>
 

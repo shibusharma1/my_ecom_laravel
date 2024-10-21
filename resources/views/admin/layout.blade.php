@@ -30,7 +30,8 @@
                 <div class="container-fluid">
                     <div class="header-mobile-inner">
                         <a class="logo" href="index.html">
-                            <img src="{{ asset('admin_assets/images/icon/logo.png')}}" alt="CoolAdmin" />
+                            {{-- To print the name of the site --}}
+                            {{ config('constants.SITE_NAME') }}
                         </a>
                         <button class="hamburger hamburger--slider" type="button">
                             <span class="hamburger-box">

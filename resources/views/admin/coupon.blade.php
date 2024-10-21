@@ -36,18 +36,33 @@
                         <td>{{$list->code}}</td>
                         <td>{{$list->value}}</td>
                         <td class="process">
-                            <a href="{{url('admin/coupon/delete/')}}/{{$list->id}}">
-                                <button type="button" class="btn btn-danger">
-                                    Delete
-                                </button>
-                            </a>
+
                             {{-- Managing the add and edit in the same form dynamically --}}
                             <a href="{{url('admin/coupon/manage_coupon/')}}/{{$list->id}}">
                                 <button type="button" class="btn btn-success">
                                     Edit
                                 </button>
                             </a>
+                            @if($list->status == 1)
+                            <a href="{{url('admin/coupon/status/0')}}/{{$list->id}}">
+                                <button type="button" class="btn btn-primary">
+                                    Active
+                                </button>
+                            </a>
+                            @elseif($list->status == 0)
+                            <a href="{{url('admin/coupon/status/1')}}/{{$list->id}}">
+                                <button type="button" class="btn btn-warning">
+                                    Deactive
+                                </button>
+                            </a>
 
+                            @endif
+
+                            <a href="{{url('admin/coupon/delete/')}}/{{$list->id}}">
+                                <button type="button" class="btn btn-danger">
+                                    Delete
+                                </button>
+                            </a>
                         </td>
 
                     </tr>

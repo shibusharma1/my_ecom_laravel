@@ -69,4 +69,15 @@ class CouponController extends Controller
         return redirect('admin/coupon');
 
 
-    }}
+    }
+    public function status(Request $request,$status, $id)
+    {
+        $category = Coupon::find($id);
+        $category->status=$status;
+        $category->save();
+        $request->session()->flash('message', 'Category Status Updated');
+        return redirect('admin/coupon');
+
+
+    }
+}

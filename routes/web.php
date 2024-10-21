@@ -27,6 +27,8 @@ Route::group(['middleware' => 'admin_auth'], function () {
 
     Route::get('admin/category/delete/{id}', [CategoryController::class, 'delete']);
 
+    Route::get('admin/category/status/{status}/{id}', [CategoryController::class, 'status']);
+
 
     // For coupon CRUD operation
     Route::get('admin/coupon', [CouponController::class, 'index']);
@@ -38,6 +40,8 @@ Route::group(['middleware' => 'admin_auth'], function () {
     Route::post('admin/coupon/manage_coupon_process', [CouponController::class, 'manage_coupon_process'])->name('coupon.insert');
 
     Route::get('admin/coupon/delete/{id}', [CouponController::class, 'delete']);
+
+    Route::get('admin/coupon/status/{status}/{id}', [CouponController::class, 'status']);
 
     
     
