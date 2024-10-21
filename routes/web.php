@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CouponController;
-
+use App\Http\Controllers\SizeController;
 
 Route::get('/', function () {
     return view('admin/login');
@@ -30,6 +30,7 @@ Route::group(['middleware' => 'admin_auth'], function () {
     Route::get('admin/category/status/{status}/{id}', [CategoryController::class, 'status']);
 
 
+
     // For coupon CRUD operation
     Route::get('admin/coupon', [CouponController::class, 'index']);
     // managing the edit and update in same form
@@ -42,6 +43,22 @@ Route::group(['middleware' => 'admin_auth'], function () {
     Route::get('admin/coupon/delete/{id}', [CouponController::class, 'delete']);
 
     Route::get('admin/coupon/status/{status}/{id}', [CouponController::class, 'status']);
+    
+    
+
+    
+    // For Size CRUD operation
+    Route::get('admin/size', [SizeController::class, 'index']);
+    // managing the edit and update in same form
+    Route::get('admin/size/manage_size', [SizeController::class, 'manage_size']);
+    // if id comes in the request then it is for edit else it is for add
+    Route::get('admin/size/manage_size/{id}', [SizeController::class, 'manage_size']);
+
+    Route::post('admin/size/manage_size_process', [SizeController::class, 'manage_size_process'])->name('size.insert');
+
+    Route::get('admin/size/delete/{id}', [SizeController::class, 'delete']);
+
+    Route::get('admin/size/status/{status}/{id}', [SizeController::class, 'status']);
 
     
     

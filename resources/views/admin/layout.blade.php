@@ -92,6 +92,12 @@
 
                         </li>
 
+                        <li class="@yield('size_select')">
+                            <a href="{{url('admin/size')}}">
+                                <i class="fas fa-window-maximize"></i>Size</a>
+
+                        </li>
+
                     </ul>
 
                 </nav>
