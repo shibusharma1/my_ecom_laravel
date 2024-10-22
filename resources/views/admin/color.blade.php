@@ -1,6 +1,6 @@
 @extends('admin/layout')
-@section('page_title', 'Coupon')
-@section('coupon_select','active')
+@section('page_title', 'Color')
+@section('color_select','active')
 @section('container')
 
 @if(session()->has('message'))
@@ -14,11 +14,13 @@
 
 
 <h1 class="m-b-5">
-    Coupon
+    Color
 </h1>
-<a href="{{url('admin/coupon/manage_coupon')}}">
+
+    <a href="{{url('admin/color/manage_color')}}">
+
     <button type="button" class="btn btn-success">
-        Add Coupon
+        Add Color
     </button>
 </a>
 
@@ -30,9 +32,8 @@
                 <thead>
                     <tr>
                         <th>Id</th>
-                        <th>Title</th>
-                        <th>Code</th>
-                        <th>Value</th>
+                        <th>Color</th>
+                        
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -40,25 +41,25 @@
                     @foreach($data as $list)
                     <tr>
                         <td>{{$list->id}}</td>
-                        <td>{{$list->title}}</td>
-                        <td>{{$list->code}}</td>
-                        <td>{{$list->value}}</td>
+                        <td>{{$list->color}}</td>
+                        
                         <td class="process">
-
+                            
                             {{-- Managing the add and edit in the same form dynamically --}}
-                            <a href="{{url('admin/coupon/manage_coupon/')}}/{{$list->id}}">
+                            <a href="{{url('admin/color/manage_color/')}}/{{$list->id}}">
                                 <button type="button" class="btn btn-success">
                                     Edit
                                 </button>
                             </a>
+
                             @if($list->status == 1)
-                            <a href="{{url('admin/coupon/status/0')}}/{{$list->id}}">
+                            <a href="{{url('admin/color/status/0')}}/{{$list->id}}">
                                 <button type="button" class="btn btn-primary">
                                     Active
                                 </button>
                             </a>
                             @elseif($list->status == 0)
-                            <a href="{{url('admin/coupon/status/1')}}/{{$list->id}}">
+                            <a href="{{url('admin/color/status/1')}}/{{$list->id}}">
                                 <button type="button" class="btn btn-warning">
                                     Deactive
                                 </button>
@@ -66,11 +67,14 @@
 
                             @endif
 
-                            <a href="{{url('admin/coupon/delete/')}}/{{$list->id}}">
+                            
+
+                            <a href="{{url('admin/color/delete/')}}/{{$list->id}}">
                                 <button type="button" class="btn btn-danger">
                                     Delete
                                 </button>
                             </a>
+
                         </td>
 
                     </tr>
