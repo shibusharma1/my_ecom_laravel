@@ -1,5 +1,5 @@
 @php
-    // use Config;
+// use Config;
 @endphp
 <!DOCTYPE html>
 <html lang="en">
@@ -32,7 +32,7 @@
                 <div class="login-wrap">
                     <div class="login-content">
                         <div class="login-logo">
-                            
+
                             <a href="#">
                                 {{-- To print the name of the site --}}
                                 {{ config('constants.SITE_NAME') }}
@@ -53,9 +53,15 @@
                                         placeholder="Password">
                                 </div>
                                 <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">sign in</button>
-                                <div class="alert alert-danger" role='alert' style="background-color: transparent;border:none;">
+
+                                @if(session()->has('error'))
+                                <div class="sufee-alert alert with-close alert-danger alert-dismissible fade show">
                                     {{session('error')}}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
                                 </div>
+                                @endif
 
                             </form>
 
