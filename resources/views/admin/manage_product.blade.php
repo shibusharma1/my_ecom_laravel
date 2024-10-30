@@ -22,13 +22,9 @@
 
 <div class="row m-t-30">
     <div class="col-md-12">
-
-
-
-        <div class="card p-5">
-
-            <form action="{{ route('product.insert')}}" method="post" enctype="multipart/form-data">
-                @csrf
+        <form action="{{ route('product.insert')}}" method="post" enctype="multipart/form-data">
+            @csrf
+            <div class="card p-5">
                 <div class="form-group">
                     <label for="name" class="control-label mb-1">Name</label>
                     <input id="name" value="{{$name}}" name="name" type="text" class="form-control" aria-required="true"
@@ -65,21 +61,17 @@
 
                     <div class="form-group col-md-4">
                         <label for="category_id" class="control-label mb-1">Category ID</label>
-                        <select id="category_id" value="{{$category_id}}" name="category_id" type="text"
-                            class="form-control" aria-required="true" aria-invalid="false" required>
+                        <select id="category_id" value="{{$category_id}}" name="category_id" class="form-control"
+                            aria-required="true" aria-invalid="false" required>
+                            <option value="">Select categories</option>
 
-                            <option value="" disabled>Select categories</option>
                             @foreach($category as $list)
-                            @if($category_id==$list->id)
-                            <option selected value="{{$list->id}}">
-                                @else
-                            <option value="{{$list->id}}">
-                                @endif
-                            <option value="{{$list->id}}">{{$list->category_name}}</option>
+                            <option value="{{$list->id}}" {{ $category_id==$list->id ? 'selected' : '' }}>
+                                {{$list->category_name}}
+                            </option>
                             @endforeach
-
-
                         </select>
+
 
                     </div>
                     @error('category_id')
@@ -192,28 +184,191 @@
 
 
 
-                <div>
-                    <input type="hidden" name="id" value="{{$id}}" />
-                    <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
 
-                        Submit
-                    </button>
-                </div>
-            </form>
+            </div>
+    </div>
+</div>
+{{-- </div> --}}
+
+{{-- making another form below the form --}}
+<h2 class="mb-3">Product Attributes</h2>
+<div class="card p-3 mb-5" id="product_attr_1">
+    <div class="card-body">
+        <div class='row'>
+            <div class="form-group col-md-2">
+                <label for="sku" class="control-label mb-1">SKU</label>
+                <input id="sku" name="sku[]" type="text" class="form-control" aria-required="true" aria-invalid="false"
+                    required>
+            </div>
+            @error('sku')
+            <div class="alert alert-danger">
+                {{ $message }}
+            </div>
+            @enderror
+
+            <div class="form-group col-md-2">
+                <label for="mrp" class="control-label mb-1">MRP</label>
+                <input id="mrp" name="mrp[]" type="text" class="form-control" aria-required="true" aria-invalid="false"
+                    required>
+            </div>
+            @error('mrp')
+            <div class="alert alert-danger">
+                {{ $message }}
+            </div>
+            @enderror
+
+            <div class="form-group col-md-2">
+                <label for="price" class="control-label mb-1">Price</label>
+                <input id="price" name="price[]" type="text" class="form-control" aria-required="true"
+                    aria-invalid="false" required>
+            </div>
+            @error('price')
+            <div class="alert alert-danger">
+                {{ $message }}
+            </div>
+            @enderror
+
+            <div class="form-group col-md-3">
+                <label for="size_id" class="control-label mb-1">Size</label>
+                <select id="size_id" name="size_id[]" class="form-control" aria-required="true" aria-invalid="false"
+                    required>
+                    <option value="">Select </option>
+
+                    @foreach($sizes as $list)
+                    <option value="{{$list->id}}">
+                        {{$list->size}}
+                    </option>
+                    @endforeach
+                </select>
+
+
+            </div>
+
+
+            <div class="form-group col-md-3">
+                <label for="color_id" class="control-label mb-1">Color</label>
+                <select id="color_id" name="color_id[]" class="form-control" aria-required="true" aria-invalid="false"
+                    required>
+                    <option value="">Select </option>
+
+                    @foreach($colors as $list)
+                    <option value="{{$list->id}}">
+                        {{$list->color}}
+                    </option>
+                    @endforeach
+                </select>
+
+
+            </div>
+
+            <div class="form-group col-md-2">
+                <label for="qty" class="control-label mb-1">Qty</label>
+                <input id="qty" name="qty[]" type="text" class="form-control" aria-required="true" aria-invalid="false"
+                    required>
+            </div>
+            @error('qty')
+            <div class="alert alert-danger">
+                {{ $message}}
+            </div>
+            @enderror
+
+
+            <div class="form-group col-md-4">
+                <label for="attr_image">Image</label>
+                <input type="file" name="attr_image[]" class="form-control" id="attr_image" {{$image_required}}>
+            </div>
+            @if($errors->has('attr_image'))
+            <span class="text-danger">{{ $errors->first('attr_image') }}</span>
+            @endif
+
+            <div class="form-group col-md-2">
+                <label for="action" class="control-label mb-1">&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                <button type="button" class="btn btn-lg btn-success btn-block" onclick="add_more()">
+                    <i class="fa fa-plus"></i> &nbsp;Add</button>
+
+            </div>
         </div>
     </div>
 </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+</div>
+<input type="hidden" name="id" value="{{$id}}" />
+<button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
+
+    Submit
+</button>
+
+
+</div>
+</form>
+</div>
+
+
 <div class="row">
     <div class="col-md-12">
         <div class="copyright">
             <p>Copyright © 2018 Colorlib. All rights reserved. Template by <a href="https://colorlib.com">Colorlib</a>.
             </p>
         </div>
-    </div>
-</div>
 
-</div>
-</div>
 
-@endsection
+        <script>
+            var loop_count = 1;
+
+function add_more() {
+    loop_count++;
+    var html = '<div class="card p-3 mt-3" id="product_attr_' + loop_count + '"><div class="card-body"><div class="row">';
+
+    html += '<div class="form-group col-md-2"><label for="sku_' + loop_count + '" class="control-label mb-1">SKU</label>';
+    html += '<input id="sku_' + loop_count + '" name="sku[]" type="text" class="form-control" aria-required="true" aria-invalid="false" required></div>';
+
+    html += '<div class="form-group col-md-2"><label for="mrp_' + loop_count + '" class="control-label mb-1">MRP</label>';
+    html += '<input id="mrp_' + loop_count + '" name="mrp[]" type="text" class="form-control" aria-required="true" aria-invalid="false" required></div>';
+
+    html += '<div class="form-group col-md-2"><label for="price_' + loop_count + '" class="control-label mb-1">Price</label>';
+    html += '<input id="price_' + loop_count + '" name="price[]" type="text" class="form-control" aria-required="true" aria-invalid="false" required></div>';
+
+    html += '<div class="form-group col-md-3"><label for="size_id_' + loop_count + '" class="control-label mb-1">Size</label>';
+    html += '<select id="size_id_' + loop_count + '" name="size_id[]" class="form-control" aria-required="true" aria-invalid="false" required>';
+    html += '<option value="">Select</option>';
+    html += '@foreach($sizes as $list)<option value="{{$list->id}}">{{$list->size}}</option>@endforeach';
+    html += '</select></div>';
+
+    html += '<div class="form-group col-md-3"><label for="color_id_' + loop_count + '" class="control-label mb-1">Color</label>';
+    html += '<select id="color_id_' + loop_count + '" name="color_id[]" class="form-control" aria-required="true" aria-invalid="false" required>';
+    html += '<option value="">Select</option>';
+    html += '@foreach($colors as $list)<option value="{{$list->id}}">{{$list->color}}</option>@endforeach';
+    html += '</select></div>';
+
+    html += '<div class="form-group col-md-2"><label for="qty_' + loop_count + '" class="control-label mb-1">Qty</label>';
+    html += '<input id="qty_' + loop_count + '" name="qty[]" type="text" class="form-control" aria-required="true" aria-invalid="false" required></div>';
+
+    html += '<div class="form-group col-md-4"><label for="attr_image_' + loop_count + '">Image</label>';
+    html += '<input type="file" name="attr_image[]" class="form-control" id="attr_image_' + loop_count + '" {{$image_required}}></div>';
+
+    html += '<div class="form-group col-md-2"><label for="action" class="control-label mb-1">&nbsp;&nbsp;&nbsp;&nbsp;</label>';
+    html += '<button type="button" class="btn btn-danger btn-block" onclick="remove_more(' + loop_count + ')"><i class="fa fa-minus"></i> Remove</button></div>';
+
+    html += '</div></div></div>';
+
+    jQuery('#product_attr_1').append(html);
+}
+
+function remove_more(loop_count) {
+    jQuery('#product_attr_' + loop_count).remove();
+}
+
+        </script>
+
+        @endsection

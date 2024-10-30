@@ -73,7 +73,8 @@
                         </li>
                         <li class="@yield('product_select')">
                             <a href="{{url('admin/product')}}">
-                                <i class="fas fa-product-hunt"></i>Product</a>
+                                <i class="fas fa-paint-brush"></i>
+                                Product</a>
 
                         </li>
 
@@ -123,7 +124,7 @@
                         </li>
                         <li class="@yield('product_select')">
                             <a href="{{url('admin/product')}}">
-                                <i class="fas fa-product-hunt"></i>Product</a>
+                                <i class="fas fa-cart-plus"></i>Product</a>
 
                         </li>
 
