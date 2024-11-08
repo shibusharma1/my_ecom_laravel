@@ -59,11 +59,10 @@ class ProductController extends Controller
 
     public function manage_product_process(Request $request)
     {
-        if($request->post('id')>0){
-            $image_validation="mimes:jpeg,jpg,png";
-        }
-        else{
-            $image_validation="required|mimes:jpeg,jpg,png|max:2048";
+        if ($request->post('id') > 0) {
+            $image_validation = "mimes:jpeg,jpg,png";
+        } else {
+            $image_validation = "required|mimes:jpeg,jpg,png|max:2048";
         }
 
         $request->validate([
@@ -102,6 +101,43 @@ class ProductController extends Controller
         $product->warranty = $request->post('warranty');
         $product->status = 1;
         $product->save();
+        $pid=$product->id;
+
+        // Product attr start
+        $skuArr = $request->post('sku');
+        $mrpArr = $request->post('mrp');
+        $priceArr = $request->post('price');
+        $qtyArr = $request->post('qty');
+        $size_idArr = $request->post('size_id');
+        $color_idArr = $request->post('color_id');
+
+
+        foreach ($skuArr as $key => $value) {
+            $productAttrArr['product_id'] = $pid;
+            $productAttrArr['sku'] = $skuArr[$key];
+            $productAttrArr['attr_image'] = 'test';
+            $productAttrArr['mrp'] = $mrpArr[$key];
+            $productAttrArr['price'] = $priceArr[$key];
+            $productAttrArr['qty'] = $qtyArr[$key];
+            if ($size_idArr[$key] == '') {
+                $productAttrArr['size_id'] = 0;
+            } else {
+                $productAttrArr['size_id'] = $size_idArr[$key];
+            }
+            if ($color_idArr[$key] == '') {
+                $productAttrArr['color_id'] = 0;
+            } else {
+                $productAttrArr['color_id'] = $color_idArr[$key];
+            }
+            DB::table('products_attrs')->insert($productAttrArr);
+
+        }
+        // print_r($skuArr);
+        // die();
+
+        // Product attr end
+
+
 
         $request->session()->flash('message', $msg);
         return redirect('admin/product');

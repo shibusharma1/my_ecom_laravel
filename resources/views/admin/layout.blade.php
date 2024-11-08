@@ -35,7 +35,7 @@
                         </a>
                         <button class="hamburger hamburger--slider" type="button">
                             <span class="hamburger-box">
-                                <span class="hamburger-inner"></span>
+                                <span class="hamburger-inner"><i class="fas fa-list"></i></span>
                             </span>
                         </button>
                     </div>
@@ -73,7 +73,7 @@
                         </li>
                         <li class="@yield('product_select')">
                             <a href="{{url('admin/product')}}">
-                                <i class="fas fa-paint-brush"></i>
+                                <i class="fas fa-cart-plus"></i>
                                 Product</a>
 
                         </li>
