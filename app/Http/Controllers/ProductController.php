@@ -33,6 +33,14 @@ class ProductController extends Controller
             $result['uses'] = $arr[0]->uses;
             $result['warranty'] = $arr[0]->warranty;
             $result['status'] = $arr[0]->status;
+
+            //retriving the attributes of the products
+            $result['productAttrArr']=DB::table('products_attrs')->where(['product_id'=>$id])->get();
+            // dd($result['productAttrArr']);
+
+        
+
+
         } else {
             $result['id'] = 0;
             $result['category_id'] = 0;
@@ -48,6 +56,17 @@ class ProductController extends Controller
             $result['uses'] = '';
             $result['warranty'] = '';
             $result['status'] = '';
+
+            //creating blank grid for new entry
+            $result['productAttrArr'][0]['product_id']='';
+            $result['productAttrArr'][0]['sku']='';
+            $result['productAttrArr'][0]['attr_image']='';
+            $result['productAttrArr'][0]['mrp']='';
+            $result['productAttrArr'][0]['price']='';
+            $result['productAttrArr'][0]['qty']='';
+            $result['productAttrArr'][0]['size_id']='';
+            $result['productAttrArr'][0]['color_id']='';
+            $result['productAttrArr'][0]['']='';
         }
 
         // Working for the dropdown of the categories in the form while doing the entry
@@ -59,105 +78,110 @@ class ProductController extends Controller
 
     public function manage_product_process(Request $request)
     {
-        if ($request->post('id') > 0) {
-            $image_validation = "mimes:jpeg,jpg,png";
-        } else {
-            $image_validation = "required|mimes:jpeg,jpg,png|max:2048";
+        //return $request->post();
+        //echo 
+        //print_r($request->post());
+        //die();
+        if($request->post('id')>0){
+            $image_validation="mimes:jpeg,jpg,png";
+        }else{
+            $image_validation="required|mimes:jpeg,jpg,png";
         }
-
         $request->validate([
-            'name' => 'required',
-            'image' => $image_validation,
-            'slug' => 'required|unique:products,slug,' . $request->post('id'),
+            'name'=>'required',
+            'image'=>$image_validation,
+            'slug'=>'required|unique:products,slug,'.$request->post('id'),   
         ]);
 
-        if ($request->post('id') > 0) {
-            $product = Product::find($request->post('id'));
-            $msg = "Product Updated";
-        } else {
-            $product = new Product();
-            $msg = "Product Inserted";
+        if($request->post('id')>0){
+            $model=Product::find($request->post('id'));
+            $msg="Product updated";
+        }else{
+            $model=new Product();
+            $msg="Product inserted";
         }
 
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $ext = $image->extension();
-            $image_name = time() . '.' . $ext;
-            $image->storeAs('public/media', $image_name);
-            $product->image = $image_name;
+        if($request->hasfile('image')){
+            $image=$request->file('image');
+            $ext=$image->extension();
+            $image_name=time().'.'.$ext;
+            $image->storeAs('/public/media',$image_name);
+            $model->image=$image_name;
         }
 
-        $product->id = $request->post('id');
-        $product->category_id = $request->post('category_id');
-        $product->name = $request->post('name');
-        $product->slug = $request->post('slug');
-        $product->brand = $request->post('brand');
-        $product->model = $request->post('model');
-        $product->short_desc = $request->post('short_desc');
-        $product->desc = $request->post('desc');
-        $product->keywords = $request->post('keywords');
-        $product->technical_specification = $request->post('technical_specification');
-        $product->uses = $request->post('uses');
-        $product->warranty = $request->post('warranty');
-        $product->status = 1;
-        $product->save();
-        $pid=$product->id;
-
-        // Product attr start
-        $skuArr = $request->post('sku');
-        $mrpArr = $request->post('mrp');
-        $priceArr = $request->post('price');
-        $qtyArr = $request->post('qty');
-        $size_idArr = $request->post('size_id');
-        $color_idArr = $request->post('color_id');
-
-
-        foreach ($skuArr as $key => $value) {
-            $productAttrArr['product_id'] = $pid;
-            $productAttrArr['sku'] = $skuArr[$key];
-            $productAttrArr['attr_image'] = 'test';
-            $productAttrArr['mrp'] = $mrpArr[$key];
-            $productAttrArr['price'] = $priceArr[$key];
-            $productAttrArr['qty'] = $qtyArr[$key];
-            if ($size_idArr[$key] == '') {
-                $productAttrArr['size_id'] = 0;
-            } else {
-                $productAttrArr['size_id'] = $size_idArr[$key];
+        $model->category_id=$request->post('category_id');;
+        $model->name=$request->post('name');
+        $model->slug=$request->post('slug');
+        $model->brand=$request->post('brand');
+        $model->model=$request->post('model');
+        $model->short_desc=$request->post('short_desc');
+        $model->desc=$request->post('desc');
+        $model->keywords=$request->post('keywords');
+        $model->technical_specification=$request->post('technical_specification');
+        $model->uses=$request->post('uses');
+        $model->warranty=$request->post('warranty');
+        $model->status=1;
+        $model->save();
+        $pid=$model->id;
+        /*Product Attr Start*/ 
+        $paidArr=$request->post('paid'); 
+        $skuArr=$request->post('sku'); 
+        $mrpArr=$request->post('mrp'); 
+        $priceArr=$request->post('price'); 
+        $qtyArr=$request->post('qty'); 
+        $size_idArr=$request->post('size_id'); 
+        $color_idArr=$request->post('color_id'); 
+        foreach($skuArr as $key=>$val){
+            $productAttrArr['products_id']=$pid;
+            $productAttrArr['sku']=$skuArr[$key];
+            $productAttrArr['attr_image']='test';
+            $productAttrArr['mrp']=$mrpArr[$key];
+            $productAttrArr['price']=$priceArr[$key];
+            $productAttrArr['qty']=$qtyArr[$key];
+            if($size_idArr[$key]==''){
+                $productAttrArr['size_id']=0;
+            }else{
+                $productAttrArr['size_id']=$size_idArr[$key];
             }
-            if ($color_idArr[$key] == '') {
-                $productAttrArr['color_id'] = 0;
-            } else {
-                $productAttrArr['color_id'] = $color_idArr[$key];
+
+            if($color_idArr[$key]==''){
+                $productAttrArr['color_id']=0;
+            }else{
+                $productAttrArr['color_id']=$color_idArr[$key];
             }
-            DB::table('products_attrs')->insert($productAttrArr);
+            if($paidArr[$key]!=''){
+                DB::table('products_attr')->where(['id'=>$paidArr[$key]])->update($productAttrArr);
+            }else{
+                DB::table('products_attr')->insert($productAttrArr);
+            }
+            
+        }  
+        /*Product Attr End*/ 
+        
 
-        }
-        // print_r($skuArr);
-        // die();
+        $request->session()->flash('message',$msg);
+        return redirect('admin/product');
+        
+    }
 
-        // Product attr end
-
-
-
-        $request->session()->flash('message', $msg);
+    public function delete(Request $request,$id){
+        $model=Product::find($id);
+        $model->delete();
+        $request->session()->flash('message','Product deleted');
         return redirect('admin/product');
     }
 
-
-    public function delete(Request $request, $id)
-    {
-        $product = Product::find($id);
-        $product->delete();
-        $request->session()->flash('message', 'Product deleted');
-        return redirect('admin/product');
+    public function product_attr_delete(Request $request,$paid,$pid){
+        DB::table('products_attr')->where(['id'=>$paid])->delete();
+        return redirect('admin/product/manage_product/'.$pid);
     }
+    
 
-    public function status(Request $request, $status, $id)
-    {
-        $product = Product::find($id);
-        $product->status = $status;
-        $product->save();
-        $request->session()->flash('message', 'Product Status Updated');
+    public function status(Request $request,$status,$id){
+        $model=Product::find($id);
+        $model->status=$status;
+        $model->save();
+        $request->session()->flash('message','Product status updated');
         return redirect('admin/product');
     }
 }

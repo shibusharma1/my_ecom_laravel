@@ -84,7 +84,7 @@ Route::group(['middleware' => 'admin_auth'], function () {
     // if id comes in the request then it is for edit else it is for add
     Route::get('admin/product/manage_product/{id}', [ProductController::class, 'manage_product']);
 
-    Route::post('admin/product/manage_product_process', [ProductController::class, 'manage_product_process'])->name('product.insert');
+    Route::post('admin/product/manage_product_process', [ProductController::class, 'manage_product_process'])->name('product.manage_product_process');
 
     Route::get('admin/product/delete/{id}', [ProductController::class, 'delete']);
 
